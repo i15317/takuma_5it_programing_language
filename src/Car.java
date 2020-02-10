@@ -20,10 +20,10 @@ abstract public class Car {
     }
 
     //ライフサイクルメソッド
-    public void LifeCycle() {
+    public void Lifecycle() {
 
         //基底クラスのライフサイクルメソッド
-        m_SpeedController.LifeCycle();
+        m_SpeedController.Lifecycle();
         //派生クラスで完結するライフサイクルメソッドを実行
         ChildLifecycle();
 

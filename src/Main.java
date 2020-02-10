@@ -4,8 +4,8 @@ public class Main {
         SuperCar superCar = new SuperCar();
         NormalCar normalCar = new NormalCar();
         while(true) {
-            superCar.LifeCycle();
-            normalCar.LifeCycle();
+            superCar.Lifecycle();
+            normalCar.Lifecycle();
         }
 
     }

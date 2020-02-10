@@ -22,7 +22,7 @@ public class SpeedController {
         m_SpeedMeter = new SpeedMeter();
     }
 
-    void LifeCycle() {
+    void Lifecycle() {
         //ユーザーコントロールシーケンス
         var key = UserAction();
         if (key.contains("a")) {
