@@ -2,14 +2,20 @@ import java.util.Scanner;
 
 public class SpeedController {
     protected SpeedMeter m_SpeedMeter;
-    //加速度は2.5km/h/sで一定
-    private final Double ACCELERATION = 1.0;
-    //減速度は4.2km/h/sで一定
+    //加速度は2.5km/h/sがデフォルト
+    private final Double ACCELERATION = 2.5;
+    //減速度は4.2km/h/sがデフォルト
     private final Double DECELERATION = -4.2;
     //空気抵抗(0.3km/h/s)（惰性走行のためとりあえず設定。本来物理演算を車側が担うことはない）
     private final Double AIR_RESIST = -0.3;
+    //補正の上限
+    private Double MAX_CORRECTION = 1.5;
     //計器からの警告
     private int m_Status = 0;
+
+    //加速度の補正
+    private Double m_AccelerationCorrection = 0.0;
+    private Double m_DecelerationCorrection = 0.0;
 
     SpeedController() {
         //スピードメーターのインスタンスを作成
@@ -46,15 +52,27 @@ public class SpeedController {
     }
 
     private void Accelerator() {
-        m_Status = m_SpeedMeter.SpeedRecord(ACCELERATION) ? 0 : 1;
+        m_Status = m_SpeedMeter.SpeedRecord(ACCELERATION + m_AccelerationCorrection) ? 0 : 1;
     }
 
     private void Braking() {
-        m_Status = m_SpeedMeter.SpeedRecord(DECELERATION) ? 0 : 1;
+        m_Status = m_SpeedMeter.SpeedRecord(DECELERATION - m_DecelerationCorrection) ? 0 : 1;
     }
 
     private void Inertia() {
         m_Status = m_SpeedMeter.SpeedRecord(AIR_RESIST) ? 0 : 1;
+    }
+
+    void TuningAcceleration(Double value) {
+        m_AccelerationCorrection += value;
+        m_AccelerationCorrection = m_AccelerationCorrection <= MAX_CORRECTION ? 0 <= m_AccelerationCorrection ? m_AccelerationCorrection :
+                0 : MAX_CORRECTION;
+    }
+
+    void TuningDeccleration(Double value) {
+        m_DecelerationCorrection += value;
+        m_DecelerationCorrection = m_DecelerationCorrection <= MAX_CORRECTION ? 0 <= m_DecelerationCorrection ? m_DecelerationCorrection :
+                0 : MAX_CORRECTION;
     }
 
 }
