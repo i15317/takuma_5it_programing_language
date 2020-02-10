@@ -1,23 +1,16 @@
-public class SuperCar extends Car{
+public class SuperCar extends Car {
 
     @Override
-    Boolean initialize(){
-
+    protected Boolean initialize() {
+        //スーパーカーならではの機能を実装する場合はここで初期化する
+        System.out.println("スーパーカーは走れます！");
+        return true;
     }
 
     @Override
-    void run(){
-
-    }
-
-    @Override
-    void stop(){
-
-    }
-
-    @Override
-    void childLifecycle(){
-
+    protected void ChildLifecycle() {
+        //とりあえず何もしない
+        System.out.println("スーパーカーの機能を実行します");
     }
 
 }

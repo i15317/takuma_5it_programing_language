@@ -1,6 +1,5 @@
 abstract public class Car {
     private Boolean m_StopFlag = false;
-    protected SpeedMeter m_SpeedMeter;
     protected SpeedController m_SpeedController;
 
     /**
@@ -8,27 +7,27 @@ abstract public class Car {
      * 　今回はレポートの仕様に合わせるため”あえて”抽象クラスを使いました
      */
     //車の初期処理
-    abstract Boolean initialize();
-
-    //車を走らす命令
-    abstract void run();
-
-    //車を止める命令
-    abstract void stop();
+    abstract protected Boolean initialize();
 
     //派生クラス用ライフサイクルメソッド
-    abstract void childLifecycle();
+    abstract protected void ChildLifecycle();
 
     Car() {
-        //SpeedMeterの初期化
-
         //SpeedControllerの初期化
-
+        m_SpeedController = new SpeedController();
         //派生クラスで実行される初期処理を実装する
         initialize();
+    }
 
-        //ライフサイクルメソッドの呼び出し
-        lifeCycle();
+    //ライフサイクルメソッド
+    public void lifeCycle() {
+        //とりあえず死ぬまで回し続ける（実際はこれら全体をライフサイクルで管理する。そうすればステップ実行できる）
+        while (true) {
+            //基底クラスのライフサイクルメソッド
+            m_SpeedController.LifeCycle();
+            //派生クラスで完結するライフサイクルメソッドを実行
+            ChildLifecycle();
+        }
     }
 
     //　エラーコードを取得する
@@ -40,26 +39,6 @@ abstract public class Car {
     //何もしない
     void setErrorCode() {
         m_StopFlag = true;
-    }
-
-    //スピードメーターの表示（実質的なprintf的なやつ）
-    private void dispSpeedMeter() {
-
-    }
-
-    //ライフサイクルメソッド
-    private void lifeCycle() {
-        //車を走らす
-        run();
-        //車が走り続ける間
-        while (!m_StopFlag) {
-            dispSpeedMeter();
-
-            //子クラスのライフサイクルメソッドは必ず最後に呼ばれる
-            childLifecycle();
-        }
-        //車が止まる
-        stop();
     }
 
 }
